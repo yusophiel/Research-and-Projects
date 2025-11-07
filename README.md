@@ -32,7 +32,8 @@ At the intersection of **AI**, **Data Science**, and **Financial Engineering**, 
 | Project | Description | Highlights |
 |----------|--------------|-------------|
 | [**WorldQuant Alpha Strategies**](./projects/WorldQuant-Alpha-Strategies) | Gold Medal (Top 5%) — Global Alpha Competition 2025. Reinforcement-learning–driven alpha generation framework. | RPN factor representation · Maskable PPO · IC/ICIR/Decay evaluation |
-| [**Yingling Asset Management Internship (Quant Research)**](./projects/Yingling-QR-Intern) | Built multi-strategy FoF backtesting and risk-modeling framework. | Sharpe 1.25 · CNE5/Zarra factor integration · Automated visualization |
+| [**HFT-Risk-Management (Yingling Asset Management)**](./projects/HFT%20Risk%20Management) | Developed a real-time risk control framework for high-frequency trading, integrating ML-based anomaly detection and quantitative hedging strategies. | Regulatory-aware design · Dynamic risk adjustment · Rolling backtest |
+| [**FoF-Risk-Model-and-Allocation (Yingling Asset Management)**](./projects/FoF%20Risk%20Model%20and%20Allocation) | Designed and implemented a multi-strategy FoF optimization and CNE5/Zarra risk model with cross-sectional attribution and rolling-forecast backtesting. | ~18% annualized return · Sharpe 1.25 (OOS) · CVaR/Drawdown profiling |
 | [**Ningbo Bank Internship (Architecture)**](./projects/Ningbo%20Bank-Architecture-Intern) | Built stock analysis pipeline with Qwen fine-tuning and RAG-based LLM Q&A system. | +7.6% QA accuracy improvement |
 | [**Distributed KV Store**](./projects/Distributed%20KV%20Store) | Implemented a **C++ distributed key–value store** under Raft protocol. | 9.6K QPS · P99 < 1ms · Async-Apply + ReadIndex concurrency |
 
