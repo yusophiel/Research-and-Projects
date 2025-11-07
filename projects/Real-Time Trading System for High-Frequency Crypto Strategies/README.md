@@ -25,7 +25,7 @@ This implementation corresponds to the reinforcement learning module described i
 
 ---
 
-## Algorithm Outline (Pseudo-code)
+## Core Workflow (Pseudo code)
 
 The following pseudo-code summarizes the core **PPO-LSTM training logic** used in this project.  
 It highlights how the agent interacts with the trading environment, computes advantages using **Generalized Advantage Estimation (GAE)**,  

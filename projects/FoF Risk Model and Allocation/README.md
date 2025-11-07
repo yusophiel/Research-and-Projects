@@ -29,6 +29,34 @@ I also implemented the `entire pipeline`, including:
 
 ---
 
+## Core Workflow (Pseudo code)
+
+```python
+for each trading_day:
+    # Step 1. Data preparation
+    update fund NAVs and compute daily log returns
+    
+    # Step 2. Rolling model training
+    train XGBoost regressor on past N-day window
+    predict next-day returns (μ̂)
+
+    # Step 3. Risk factor calculation
+    compute volatility, CVaR, max drawdown, and market β
+
+    # Step 4. Portfolio construction
+    combine predicted μ̂ with risk metrics
+    generate weights for multiple strategies:
+        - Risk Parity (static)
+        - Alpha-Beta + CVaR (semi-dynamic)
+        - Ridge multi-factor (dynamic)
+
+    # Step 5. Backtesting
+    simulate T+1 execution, turnover cost, and NAV evolution
+    record Sharpe ratio, drawdown, annualized return
+```
+
+---
+
 ## Module Justification
 
 ### `data_handle.py`
