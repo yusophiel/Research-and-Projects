@@ -8,7 +8,7 @@ This repository presents the **reinforcement learning framework I designed and i
 
 This implementation corresponds to the reinforcement learning module described in our paper:  
 *Enhancing Cryptocurrency Trading Strategies: A Deep Reinforcement Learning Approach Integrating Multi-Source LLM Sentiment Analysis (IEEE CIFEr 2025).*  
-[[PDF]](./publications/Enhancing_Cryptocurrency_Trading_Strategies_A_Deep_Reinforcement_Learning_Approach_Integrating_Multi-Source_LLM_Sentiment_Analysis.pdf)
+[[PDF]](../../publications/Enhancing_Cryptocurrency_Trading_Strategies_A_Deep_Reinforcement_Learning_Approach_Integrating_Multi-Source_LLM_Sentiment_Analysis.pdf)
 
 ![System Framework](images/FrameWork.png)
 
