@@ -25,6 +25,50 @@ This implementation corresponds to the reinforcement learning module described i
 
 ---
 
+## Algorithm Outline (Pseudo-code)
+
+The following pseudo-code summarizes the core **PPO-LSTM training logic** used in this project.  
+It highlights how the agent interacts with the trading environment, computes advantages using **Generalized Advantage Estimation (GAE)**,  
+and performs risk-adjusted policy optimization.
+
+```python
+# PPO-LSTM Training Loop (Simplified Pseudo-code) 
+initialize PPO(agent = LSTM(technical_indicators + sentiment_signals))
+
+for episode in range(max_rounds):
+    s = env.reset()
+    h = agent.init_hidden()  # initialize hidden state
+    done = False
+
+    while not done:
+        # 1. Forward pass through policy network
+        prob, h_next = agent.policy(s, h)
+        a = sample_action(prob)
+        s_next, r, done = env.step(a)
+
+        # 2. Store experience (on-policy)
+        agent.put_data((s, a, r, s_next, prob[a]))
+        s, h = s_next, h_next
+
+    # 3) PPO update (multiple epochs per episode)
+    for epoch in range(K):
+        v_s      = agent.value(s)
+        v_s_next = agent.value(s_next)
+        advantage = compute_GAE(rewards=r, values=v_s, next_values=v_s_next)
+
+        # ratio = πθ(a|s) / πθ_old(a|s)   (old prob from buffer)
+        ratio        = new_policy_prob / old_policy_prob
+        clipped_term = clip(ratio, 1 - ε, 1 + ε) * advantage
+        policy_loss  = -min(ratio * advantage, clipped_term)
+        value_loss_  = value_loss(v_s, r + γ * v_s_next)
+
+        optimize(policy_loss + value_loss_)
+```  
+**Risk-adjusted reward design:**  
+`R_t = ROI_t − λ × VolatilityPenalty_t`
+
+---
+
 ## Module Justification
 
 ### `RL_brain.py` — PPO Agent
