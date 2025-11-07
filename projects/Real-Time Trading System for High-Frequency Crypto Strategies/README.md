@@ -67,6 +67,8 @@ for episode in range(max_rounds):
 **Risk-adjusted reward design:**  
 `R_t = ROI_t − λ × VolatilityPenalty_t`
 
+The reward function penalizes excessive volatility and transaction frequency, encouraging the agent to pursue stable, risk-adjusted returns instead of short-term gains.
+
 ---
 
 ## Module Justification
