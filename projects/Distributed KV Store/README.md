@@ -2,25 +2,25 @@
 
 This repository presents the **distributed key-value store system I designed and implemented** as a high-performance backend infrastructure component for a financial trading platform. The system achieves **exceptional throughput and latency characteristics** under strong consistency guarantees using the **Raft consensus protocol**.
 
-**My contribution focuses on the complete design and optimization of the distributed KV store layer.** I engineered a high-performance KV store sustaining approximately **0.40 M read operations/second** (p99 ≈ 140 µs) and approximately **4.7 K write operations/second** under Raft strong consistency, while maintaining **99.99% uptime**.
+**My contribution focuses on the complete design and optimization of the distributed KV store layer.** I engineered a high-performance KV store sustaining **≈ 0.40 M read operations/second** (p99 ≈ 140 µs) and **≈ 4.7 K write operations/second** under Raft strong consistency, while maintaining **99.99 % uptime**.
 
-- The system integrates **RocksDB + NVMe pipeline optimization** to maximize persistent storage throughput, achieving **+30% write performance improvement** through Async-Apply and ReadIndex concurrency mechanisms.
-- I implemented a **residual-based EWMA anomaly monitor** that detects flash-crash onset conditions and reduces p99 latency spikes by approximately **70%** (1.15 → 0.34 ms) through adaptive throttling.
-- The engine was extended to support **Order-Book Cache** and **Market-Data Replay clusters**, processing approximately 7.0K snapshots/second at ~10× real-time replay speed, enabling efficient backtesting and historical analysis.
-- I was responsible for comprehensive **disaster recovery (DR) strategy**, implementing cloud-native solutions (Serverless FC → OSS) that cut storage costs by ~60% and reduce recovery time to under 15 minutes.
+- The system integrates **RocksDB + NVMe pipeline optimization** to maximize persistent storage throughput, achieving **+30 % write performance improvement** through Async-Apply and ReadIndex concurrency mechanisms.
+- I implemented a **residual-based EWMA anomaly monitor** that detects flash-crash onset conditions and reduces p99 latency spikes by **≈ 70 %** (1.15 → 0.34 ms) through adaptive throttling.
+- The engine was extended to support **Order-Book Cache** and **Market-Data Replay clusters**, processing ≈ 7.0 K snapshots/second at ~10× real-time replay speed, enabling efficient backtesting and historical analysis.
+- I was responsible for comprehensive **disaster recovery (DR) strategy**, implementing cloud-native solutions (Serverless FC → OSS) that cut storage costs by ≈ 60 % and reduce recovery time to **<15 min**.
 
 ---
 
 ## Features
 
-- **Ultra-high throughput read performance**: 0.4 M ops/s with p99 latency ≤ 140 µs
+- **Ultra-high throughput read performance**: ≈ 0.4 M ops/s with p99 latency ≤140 µs
 - **Strong consistency under Raft consensus**: Ensures data correctness across distributed replicas
-- **Optimized NVMe + RocksDB integration**: +30% write throughput improvement via Async-Apply and ReadIndex concurrency
-- **EWMA-based adaptive health monitoring**: Detects and mitigates performance anomalies, reducing p99 spikes by 70%
-- **Snapshot-based replay capability**: 7K snapshots/s at ~10× real-time speed for efficient backtesting
-- **Cloud-native disaster recovery**: Serverless architecture with ~60% storage cost reduction and <15 min recovery time
+- **Optimized NVMe + RocksDB integration**: +30 % write throughput improvement via Async-Apply and ReadIndex concurrency
+- **EWMA-based adaptive health monitoring**: Detects and mitigates performance anomalies, reducing p99 spikes by 70 %
+- **Snapshot-based replay capability**: ≈ 7 K snapshots/s at ~10× real-time speed for efficient backtesting
+- **Cloud-native disaster recovery**: Serverless architecture with ≈ 60 % storage cost reduction and <15 min recovery time
 - **Stable high-volume throughput**: Maintains 10K msg/s for tick insertion in live trading scenarios
-- **99.99% uptime guarantee**: Production-grade reliability for financial applications
+- **99.99 % uptime guarantee**: Production-grade reliability for financial applications
 
 ---
 
@@ -41,42 +41,42 @@ This repository presents the **distributed key-value store system I designed and
 **3. Async-Apply & ReadIndex Optimization**
 - **Async-Apply**: Applies committed log entries asynchronously to decouple from client request latency
 - **ReadIndex**: Serves strongly-consistent reads without disk I/O by leveraging Raft's leader guarantee
-- Combined effect: +30% write throughput, reduced read tail latency
+- Combined effect: +30 % write throughput, reduced read tail latency
 
 **4. EWMA Residual Health Monitor**
 - Tracks exponentially-weighted moving average of latency residuals
 - Detects anomalies via spike detection (threshold-based or sigma-based)
 - Triggers adaptive throttling to prevent cascade failures
-- Result: 70% reduction in p99 latency spikes (1.15 → 0.34 ms)
+- Result: 70 % reduction in p99 latency spikes (1.15 → 0.34 ms)
 
 **5. Snapshot & Replay System**
 - Periodic snapshots of state machine for fast recovery and backtesting
 - Snapshot-based replay: 7.0K snaps/s at ~10× real-time speed
 - Enables efficient Market-Data Replay and Order-Book Cache clustering
 
-### Data Flow Pseudo-code
+### System Data Flow
 
 ```
-Client Request
-    ↓
-┌─────────────────────────────────────┐
-│  Raft Consensus Layer (Leader/Follower)  │
-│  - Log replication                      │
-│  - Commit index advancement             │
-└──────────┬──────────────────────────┘
+     Client Request
+           ↓
+┌────────────────────────────────────────┐
+│  Raft Consensus Layer (Leader/Follower)│
+│  - Log replication                     │
+│  - Commit index advancement            │
+└──────────┬─────────────────────────────┘
            ↓
 ┌──────────────────────────────────────┐
 │  Async-Apply / ReadIndex Paths       │
 ├──────────────────────────────────────┤
-│  Read Path:                            │
-│    ReadIndex → check leader → read     │ (zero disk I/O)
-│    Latency: ~8-140 µs (p50-p99)       │
-│                                        │
-│  Write Path:                           │
-│    Replicate → Async-Apply → RocksDB  │
-│    Fsync to NVMe (batch)               │
-│    Throughput: 4.7K ops/s              │
-└──────────┬──────────────────────────┘
+│  Read Path:                          │
+│    ReadIndex → check leader → read   │ (zero disk I/O)
+│    Latency: ≈ 8-140 µs (p50-p99)     │
+│                                      │
+│  Write Path:                         │
+│    Replicate → Async-Apply → RocksDB │
+│    Fsync to NVMe (batch)             │
+│    Throughput: ≈ 4.7K ops/s          │
+└──────────┬───────────────────────────┘
            ↓
 ┌──────────────────────────────────────┐
 │  RocksDB LSM + NVMe Storage          │
@@ -95,7 +95,7 @@ Client Request
 
 Baseline latency: `L_baseline = p99 spike = 1.15 ms`  
 Optimized latency: `L_optimized = 0.34 ms`  
-Improvement: `(1.15 - 0.34) / 1.15 ≈ 70%` reduction
+Improvement: `(1.15 - 0.34) / 1.15 ≈ 70 %` reduction
 
 ---
 
@@ -130,7 +130,7 @@ Detects and mitigates performance anomalies through adaptive throttling.
 - **Residual Computation**: `residual = observed_latency - expected_baseline`
 - **Spike Detection**: Alert when residual exceeds threshold (e.g., 3-sigma rule)
 - **Adaptive Throttling**: Reduce incoming request rate or trigger load balancing to prevent cascade
-- **Result**: Reduces p99 latency spikes by 70%, maintaining 0.34 ms spike level under stress
+- **Result**: Reduces p99 latency spikes by 70 %, maintaining 0.34 ms spike level under stress
 
 ### `snapshot_replay.rs` – Snapshot & Replay Engine
 
@@ -150,8 +150,8 @@ Implements disaster recovery with cloud storage (e.g., Alibaba OSS, AWS S3).
 - **Serverless Upload**: Async snapshots to cloud object storage (OSS)
 - **Incremental Backup**: Delta WAL (write-ahead log) upload to reduce bandwidth
 - **Fast Recovery**: Multi-threaded parallel download and state reconstruction
-- **Cost Optimization**: ~60% storage cost reduction via compression and lifecycle policies
-- **Recovery SLA**: <15 minutes end-to-end recovery time; local simulation shows ~2.7 ms upload + 3.2 ms restore latency
+- **Cost Optimization**: ≈ 60 % storage cost reduction via compression and lifecycle policies
+- **Recovery SLA**: <15 minutes end-to-end recovery time; local simulation shows ~2.7 ms upload +3.2 ms restore latency
 
 ---
 
@@ -175,7 +175,7 @@ Below are representative results from the production deployment:
 - READ: 0.43 M ops/s, p50=8 µs, p95=47 µs, p99=143 µs
 - WRITE: 4715 ops/s (batch fsync)
 - REPLAY: 7041 snaps/s (~10× realtime)
-- EWMA: spike p99 1.15 → 0.34 ms (70%↓)
+- EWMA: spike p99 1.15 → 0.34 ms (70 %↓)
 
 ---
 
