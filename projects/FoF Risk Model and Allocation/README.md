@@ -101,6 +101,16 @@ for each trading_day:
 
 ---
 
+## Future Work
+
+1. **Configuration Management** – externalize hyperparameters to YAML/JSON files for faster experimentation.  
+2. **Logging & Monitoring** – integrate TensorBoard-style dashboards for real-time training and backtesting tracking.  
+3. **Model Explainability** – add feature-importance analysis and visualize LSTM attention weights for interpretability.  
+4. **Risk Analytics** – expand performance evaluation with Sharpe, Sortino, CVaR, and max drawdown metrics.  
+5. **Parallelization & Tuning** – enable multi-environment parallel data collection and automated hyperparameter search (e.g., Optuna).  
+
+---
+
 ## Requirements
 
 - Python >= 3.8

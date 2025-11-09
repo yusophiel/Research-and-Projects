@@ -137,6 +137,15 @@ Below are representative results from the training and backtesting processes:
 
 ---
 
+## Future Work
+
+1. **Model Optimization** – configurable XGBoost and Ridge hyperparameters; PPO meta-parameter tuning.  
+2. **Feature Engineering** – integrate industry/style factors and liquidity signals.  
+3. **Risk Management** – add leverage and exposure limits, turnover caps, and realistic cost modeling.  
+4. **System Reliability** – improve logging and data validation for better interpretability.
+
+---
+
 ## Requirements
 
 - Python 3.7+
