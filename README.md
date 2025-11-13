@@ -30,9 +30,7 @@ At the intersection of **AI**, **Data Science**, and **Financial Engineering**, 
 | Project | Description | Highlights |
 |----------|--------------|-------------|
 | [**FoF-Risk-Model-and-Allocation (Yingling Asset Management)**](./projects/FoF%20Risk%20Model%20and%20Allocation) | Developed a multi-strategy FoF optimization and risk management framework integrating return prediction, CVaR-based allocation, and factor-based risk profiling. | ~18% annualized return · Sharpe 1.25 · CVaR/Drawdown profiling |
-| [**Raft-KV-Simulator**](./projects/Raft-KV-Simulator) 
-| Implemented a C++17 **Raft-consistency KV store simulator** with latency injection, Async-Apply, and ReadIndex optimization. 
-| 0.4M reads/s · 4.7K writes/s · p99 <150µs · EWMA-based anomaly mitigation |
+| [**Raft-KV-Simulator**](./projects/Raft-KV-Simulator) |Implemented a C++17 **Raft-consistency KV store simulator** with latency injection, Async-Apply, and ReadIndex optimization. | 0.4M reads/s · 4.7K writes/s · p99 <150µs · EWMA-based anomaly mitigation |
 
 ---
 
