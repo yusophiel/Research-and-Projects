@@ -1,10 +1,19 @@
 ## Project Overview
-This repository presents the **reinforcement learning framework I designed and implemented** as part of a larger cryptocurrency trading system that integrates **multi-source sentiment analysis** from large language models (LLMs) with **deep reinforcement learning**.  
+This repository presents the **reinforcement learning framework I designed and implemented** for a high-frequency cryptocurrency trading system.
 
-**My contribution focuses on the design and implementation of the downstream reinforcement learning framework.** I developed a high-frequency trading module using the Proximal Policy Optimization (PPO) algorithm in PyTorch, augmented with an LSTM-based architecture to capture temporal dependencies in both market data and sentiment signals. 
-- The agent observes a state space constructed from a sliding window of technical indicators (e.g., EMA, MACD, RSI, KDJ) and sentiment scores derived from LLM outputs.
-- To guide the agent’s learning, I designed a composite reward function that incorporates return on investment (ROI) as the primary signal, while introducing a volatility penalty to control excessive risk-taking behavior. The module also implements data normalization (Z-score + outlier truncation), dynamic action sampling, and action interpretation for buy/hold/sell decisions.
-- I was also responsible for the full training loop, backtesting pipeline, and performance visualization tools. This includes model checkpointing, Sharpe ratio evaluation, trade signal plotting, and simulation-based validation on unseen market data.
+The upstream research team provided **precomputed sentiment scores**, which I integrated as optional input features, while **all reinforcement-learning-related components were implemented by me**. 
+
+My work focuses entirely on the **downstream trading module**, including:
+
+- A high-frequency PPO trading agent with an LSTM architecture
+- A sliding-window state representation built from technical indicators (EMA, MACD, RSI, KDJ)
+- Optional external sentiment features (provided by the LLM team; not implemented here)
+- A custom risk-adjusted reward function (ROI – volatility penalty)
+- Full training loop, on-policy data collection, and experience buffer
+- Backtesting, evaluation, Sharpe analysis, and visualization tools
+- Live-trading deployment for DOGE with a 3% two-week return
+
+This repository **does not include the LLM sentiment extraction module**, which was developed by a separate team and consumed as external data.
 
 This implementation corresponds to the reinforcement learning module described in our paper:  
 *Enhancing Cryptocurrency Trading Strategies: A Deep Reinforcement Learning Approach Integrating Multi-Source LLM Sentiment Analysis (IEEE CIFEr 2025).*  
