@@ -1,78 +1,141 @@
-# Research & Project Portfolio
-Research & engineering projects bridging AI, optimization, and data-driven decision making in complex systems.
+# Algorithm-Driven Quantitative Factor Mining Framework
 
-🎓 **BSc (Hons) Computer Science with Artificial Intelligence**  
-University of Nottingham (UK & China Campuses)  
+## Project Overview
 
----
+This repository implements a **modular quantitative factor-mining system** integrating factor research, reinforcement learning, and local LLM optimization.
 
-## About Me
+My core contribution is an end-to-end hybrid ML + quantitative framework combining:
 
-I design intelligent computational systems that transform complexity into structure — systems that learn, adapt, and make hidden dynamics observable.
-My work bridges **algorithmic reasoning**, **data-driven modeling**, and **optimization** — with a focus on applications in **financial markets** and **decision systems**.
-Trained in **Computer Science and AI**, I apply **reinforcement learning**, **graph neural networks**, and **numerical optimization** to decision-making under uncertainty.
-At the intersection of **AI**, **Data Science**, and **Financial Engineering**, I aim to develop computational methods that combine **quantitative precision with interpretability**, enabling dynamic systems to evolve toward **transparency and intelligence**.
+- **IC/ICIR-driven factor evaluation**
+- **Volatility-based market regime detection** (low_vol / normal / high_vol / crisis)
+- **Q-learning agent** for adaptive factor-weight policies
+- **Local LLM (Ollama) integration** for interpretable weight optimization with fallback
+- **RPN-based factor construction** for composable factor definitions
+- **Production-ready pipeline** with checkpointing, decay monitoring, and full backtesting
 
----
+The framework is validated on **600+ synthetic trading days** and **real Kaggle S&P 500 data** (8-factor daily). On the Hull Tactical–style dataset, the RL+LLM approach improved Sharpe by **+16.6 %** over naive ML (0.459 → 0.536), while still underperforming Buy-and-Hold after trading costs—evidence of **low-signal behavior consistent with the Efficient Market Hypothesis (EMH)**.
 
-## Research & Development
+### System Architecture
 
-| Project | Description | Highlights |
-|----------|--------------|-------------|
-| [**Graph-Enhanced Reinforcement Learning Hyper-heuristics for Vehicle Routing Problems**](./projects/Graph-Enhanced%20Reinforcement%20Learning%20Hyper-heuristics%20for%20Vehicle%20Routing%20Problems) | Designed a Graph-RL-HH framework integrating **GraphSAGE + PPO** for VRP/VRPTW. | Variance-penalized actor–critic reward · Cross-instance generalization |
-| [**Algorithm-Driven Quantitative Factor Mining**](./projects/Algorithm-Driven%20Quantitative%20Factor%20Mining) | Developed an RL-based **Alpha factor generation system** using RPN representation and Maskable PPO. | Multi-phase training · IC-based backtesting · LLM factor enhancement |
-| [**Real-Time Trading System for High-Frequency Crypto Strategies**](./projects/Real-Time%20Trading%20System%20for%20High-Frequency%20Crypto%20Strategies) | Built a PPO-LSTM agent for **crypto trading** with custom reward and real-time backtesting. | Sharpe 2.69 (DOGE) · Live trading +3% return |
-| [**Real-Time Robot System Powered by Speech Recognition and LLMs**](./projects/Real-Time%20Robot%20System%20Powered%20by%20Speech%20Recognition%20and%20Large%20Language%20Models) | Developed a **voice-based human–robot dialogue system** combining SenseVoice ASR, Qwen 2.5, and edge_tts. | Multi-threaded AV sync · Real-time ASR → LLM → TTS pipeline |
-| [**Zhejiang SUPCON Information Industry Co., Ltd. — Algorithm Intern**](./projects/Zhejiang%20SUPCON%20Information%20Industry-Algorithm-Intern) | Designed an initial algorithmic framework for **traffic signal control** using real-time flow data and Random Forest modeling. | F1 = 0.89 · Data preprocessing (Pandas, NumPy) · Visualization (Matplotlib, Seaborn) |
-
----
-
-## Quantitative & Financial Projects
-
-| Project | Description | Highlights |
-|----------|--------------|-------------|
-| [**WorldQuant Alpha Strategies**](./projects/WorldQuant-Alpha-Strategies) | Gold Medal (Top 5%) — Global Alpha Competition 2025. Reinforcement-learning–driven alpha generation framework. | RPN factor representation · Maskable PPO · IC/ICIR/Decay evaluation |
-| [**Yingling Asset Management Internship (Quant Research)**](./projects/Yingling-QR-Intern) | Built multi-strategy FoF backtesting and risk-modeling framework. | Sharpe 1.25 · CNE5/Zarra factor integration · Automated visualization |
-| [**Ningbo Bank Internship (Architecture)**](./projects/Ningbo%20Bank-Architecture-Intern) | Built stock analysis pipeline with Qwen fine-tuning and RAG-based LLM Q&A system. | +7.6% QA accuracy improvement |
-| [**Distributed KV Store**](./projects/Distributed%20KV%20Store) | Implemented a **C++ distributed key–value store** under Raft protocol. | 9.6K QPS · P99 < 1ms · Async-Apply + ReadIndex concurrency |
-
----
-
-## Mathematical & Modeling Works
-
-| Project | Description | Highlights |
-|----------|--------------|-------------|
-| [**Mathematical Contest in Modeling (MCM) 2024**](./projects/Mathematical%20Contest%20in%20Modeling-2024) | Modeled ecosystem stability using **Michaelis–Menten & Lotka–Volterra** equations. | Meritorious Winner (Top 6%) · Sensitivity & stability analysis |
+```
+        Raw Factors / Market Data
+                   ↓
+    Feature Engineering + RPN Parsing
+                   ↓
+    Factor Evaluation (IC / ICIR / Decay)
+                   ↓
+Market Regime Detection (low_vol / normal / high_vol / crisis)
+                   ↓
+    ┌─────────┬────┴───┬──────────┐
+    ↓         ↓        ↓          ↓
+  RL Agent  LLM Opt  Factor Pool  ← Three parallel paths
+    ↓         ↓        ↓          ↓
+    └─────────┴────┬───┴──────────┘
+                   ↓
+Dynamic Factor Weights + Portfolio Signals
+                   ↓
+       Backtesting + Risk Diagnostics
+(N-Group Long-Short | Regime Analysis | Cost Impact)
+```
 
 ---
 
-## Technical Stack
+## Features
 
-- **Programming:** Python (PyTorch, PyG, Pandas, NumPy), C++17 (distributed systems, lock-free)
-- **ML / DL:** PPO, DQN, Maskable PPO, LSTM, GraphSAGE, Random Forest, XGBoost
-- **Quantitative Research:** Factor construction, IC/ICIR analysis, risk attribution, backtesting
-- **Optimization:** LP-solve, Excel Solver (for LP/IP), and custom multi-objective / variance-penalized methods (for RL and combinatorial optimization)
-- **Systems:** Linux/Unix, CMake, GCC, NVMe IO, Raft consensus
-
----
-
-## Publications
-
-- *Enhancing Cryptocurrency Trading Strategies: A Deep Reinforcement Learning Approach Integrating Multi-Source LLM Sentiment Analysis*  
-  — **IEEE Symposium on Computational Intelligence for Financial Engineering and Economics (CIFEr) 2025**, shortlisted for **Best Paper Award**.  
-  [[PDF]](./publications/Enhancing_Cryptocurrency_Trading_Strategies_A_Deep_Reinforcement_Learning_Approach_Integrating_Multi-Source_LLM_Sentiment_Analysis.pdf)
+- **End-to-End Factor Pipeline**: IC/ICIR evaluation, turnover tracking, decay monitoring
+- **Market Regime Classification**: 4-state volatility detector with regime-aware backtests
+- **RL Agent**: Q-learning allocator learning adaptive factor weights across regimes
+- **LLM Integration**: Ollama-based weight optimization with JSON-safe parsing and rule-based fallback  
+- **RPN Factor Parser**: Expressive, ambiguity-free factor definitions  
+- **Production Architecture**: Checkpoint callbacks, rolling validation, no-lookahead enforcement  
+- **Multi-Factor Backtesting**: Long–short quantile portfolios with cost & drawdown analysis  
 
 ---
 
-## About This Repository
+## Core Workflow (Pseudo code)
 
-This repository collects my **academic, research, and engineering projects** across AI, FinTech, and Optimization.  
-Each project directory includes:
-- `README.md` summarizing objectives, methods, and results  
-- Visuals (architecture diagrams, result plots)  
-- (Optional) code snippets or algorithmic pseudocode  
+```python
+# Stage 1: Factor Computation & Evaluation
+for f in factors:
+    ic = corr(f, forward_returns)
+    icir = rolling_ic(f).mean() / rolling_ic(f).std()
+    turnover = f.diff().abs().mean()
+
+# Stage 2: Regime Detection
+regime = detect_regime(returns_60d)   # low_vol / normal / high_vol / crisis
+
+# Stage 3: RL Weight Optimization
+state  = encode_state(ic_bins, icir_bins, regime, exposure, concentration)
+action = rl_agent.select_action(state)
+reward = compute_reward(alpha_corr, volatility, turnover_cost, regime_risk)
+rl_agent.update(state, action, reward)
+
+# Stage 4: LLM Weight Enhancement
+proposal   = ollama.optimize_weights(base_weights, regime, ic_values)
+weights_ll = parse_json_safe(proposal, fallback=rule_based_fallback)
+
+# Stage 5: Portfolio Construction
+portfolio_signal = sum(weight[i] * factor[i] for i in factors)
+metrics = evaluate(portfolio_signal, returns)  # Sharpe, MaxDD, IC
+
+# Stage 6: Checkpointing & Decay Monitoring
+if metrics["reward"] > best:
+    save_checkpoint(weights_ll, metrics, regime)
+
+for f in factors:
+    if detect_decay(f):
+        alert_decay(f)
+```
 
 ---
 
-⭐ *If you’re reviewing my graduate application — thank you for taking the time to explore my work!*  
+## Kaggle Application Results
 
+![Applied_result](images/result.png)
+
+**Performance Analysis:**
+
+The framework was applied to an 8-factor daily S&P 500 dataset (Hull Tactical style). Four strategies were benchmarked: Buy-and-Hold, Hybrid (IC-weighted), RLFactors, and LightGBM.
+
+**Key Findings**
+
+- **Small but real alpha**: Hybrid & RLFactors both reached **IC = +0.0129**, statistically significant.
+- **RL+LLM improves over naive ML**: Net Sharpe **0.536 vs 0.459** (+16.6%).
+- **High turnover erodes alpha**: ~27–34% cost drag reduces active performance sharply.
+- **Hybrid & RLFactors converge**: identical IC and Sharpe → stable, non-overfit signal extraction.
+- **Passive still dominates**: Buy-and-Hold Sharpe **0.8843** > all active models.
+
+**Interpretation**
+
+The framework reveals **low-signal market behavior consistent with EMH**.
+Both Hybrid and RLFactors uncover a genuine but very weak alpha (IC = +0.0129, t-stat = 4.68), yet the signal is too small relative to  
+turnover-induced cost drag (~27–34%).  
+
+As a result, net Sharpe ratios fall below passive Buy-and-Hold, illustrating
+the EMH prediction that in highly efficient markets, weak predictive edges  
+cannot overcome realistic trading frictions.
+
+---
+
+## Future Work
+
+1. **Multi-Timeframe Factor Fusion** – combine factors across lookback windows (5/10/20/60 days) for robust cross-horizon signals; dynamic weighting based on IC stability per regime.  
+2. **Cross-Asset Class Extensionn** – expand from S&P 500 to cryptocurrencies, commodities, and fixed income; unified IC/regime framework across asset classes.  
+3. **Proactive Factor Decay Warning System** – predict alpha decay before it occurs using IC trend momentum; automatic factor replacement triggers.
+4. **Composite Regime Classification** – enhance 4-state regime detector with correlation/momentum/liquidity signals; regime-specific factor pool selection.  
+5. **Production Real-Time Signal Pipeline** – implement incremental updates and streaming inference for daily live signal generation; checkpoint-based model rollback.
+
+---
+
+## Requirements
+
+```
+Python 3.8+
+NumPy >= 1.19.0
+Pandas >= 1.1.0
+Scikit-learn >= 0.24.0
+SciPy >= 1.5.0
+PyTorch >= 1.7.0
+Matplotlib >= 3.3.0
+Optional: Ollama >= 0.1.0 (for LLM)
+```
