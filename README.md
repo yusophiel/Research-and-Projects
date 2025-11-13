@@ -20,7 +20,7 @@ At the intersection of **AI**, **Data Science**, and **Financial Engineering**, 
 | Project | Description | Highlights |
 |----------|--------------|-------------|
 | [**Graph-Enhanced Reinforcement Learning Hyper-heuristics for Vehicle Routing Problems**](./projects/Graph-Enhanced%20Reinforcement%20Learning%20Hyper-heuristics%20for%20Vehicle%20Routing%20Problems) | Designed a Graph-RL-HH framework integrating **GraphSAGE + PPO** for VRP/VRPTW. | Variance-penalized actor–critic reward · Cross-instance generalization |
-| [**Algorithm-Driven Quantitative Factor Mining**](./projects/Algorithm-Driven%20Quantitative%20Factor%20Mining) | Developed an RL-based **Alpha factor generation system** using RPN representation and Maskable PPO. | Multi-phase training · IC-based backtesting · LLM factor enhancement |
+| [**Algorithm-Driven Quantitative Factor Mining**](./projects/Algorithm-Driven%20Quantitative%20Factor%20Mining) | Developed an RL-based factor allocation system using **RPN factor representations**, **Q-learning**, and **local LLM-driven weight refinement**. | Multi-phase training · IC-based backtesting · LLM factor enhancement |
 | [**Real-Time Trading System for High-Frequency Crypto Strategies**](./projects/Real-Time%20Trading%20System%20for%20High-Frequency%20Crypto%20Strategies) | Built a PPO-LSTM agent for **crypto trading** with custom reward and real-time backtesting. | Sharpe 2.69 (DOGE) · Live trading +3% return |
 
 ---
@@ -30,7 +30,9 @@ At the intersection of **AI**, **Data Science**, and **Financial Engineering**, 
 | Project | Description | Highlights |
 |----------|--------------|-------------|
 | [**FoF-Risk-Model-and-Allocation (Yingling Asset Management)**](./projects/FoF%20Risk%20Model%20and%20Allocation) | Developed a multi-strategy FoF optimization and risk management framework integrating return prediction, CVaR-based allocation, and factor-based risk profiling. | ~18% annualized return · Sharpe 1.25 · CVaR/Drawdown profiling |
-| [**Distributed KV Store**](./projects/Distributed%20KV%20Store) | Implemented a **C++ distributed key–value store** under Raft protocol. | 9.6K QPS · P99 < 1ms · Async-Apply + ReadIndex concurrency |
+| [**Raft-KV-Simulator**](./projects/Raft-KV-Simulator) 
+| Implemented a C++17 **Raft-consistency KV store simulator** with latency injection, Async-Apply, and ReadIndex optimization. 
+| 0.4M reads/s · 4.7K writes/s · p99 <150µs · EWMA-based anomaly mitigation |
 
 ---
 
