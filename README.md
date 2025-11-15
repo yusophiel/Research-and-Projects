@@ -20,8 +20,8 @@ At the intersection of **AI**, **Data Science**, and **Financial Engineering**, 
 | Project | Description | Highlights |
 |----------|--------------|-------------|
 | [**Graph-Enhanced Reinforcement Learning Hyper-heuristics for Vehicle Routing Problems**](./projects/Graph-Enhanced%20Reinforcement%20Learning%20Hyper-heuristics%20for%20Vehicle%20Routing%20Problems) | Designed a Graph-RL-HH framework integrating **GraphSAGE + PPO** for VRP/VRPTW. | Variance-penalized actor–critic reward · Cross-instance generalization |
-| [**Algorithm-Driven Quantitative Factor Mining**](./projects/Algorithm-Driven%20Quantitative%20Factor%20Mining)  Developed an RL-based factor allocation system using **RPN factor representations**, **Q-learning**, and **local LLM-driven weight refinement**. | Multi-phase training · IC-based backtesting · LLM factor enhancement |
-| [**Real-Time Trading System for High-Frequency Market Strategies**] |(./projects Real-Time%20Trading%20System%20for%20High-Frequency%20Crypto%20Strategies) | Built a PPO-LSTM agent for **high-frequency trading** with custom reward shaping and a **real-time backtesting framework**. | Achieved a Sharpe ratio of 2.69 on selected market instruments · Live simulation return +3% |
+| [**Algorithm-Driven Quantitative Factor Mining**](./projects/Algorithm-Driven%20Quantitative%20Factor%20Mining) |  Developed an RL-based factor allocation system using **RPN factor representations**, **Q-learning**, and **local LLM-driven weight refinement**. | Multi-phase training · IC-based backtesting · LLM factor enhancement |
+| [**Real-Time Trading System for High-Frequency Market Strategies**] |(./projects/Real-Time%20Trading%20System%20for%20High-Frequency%20Market%20Strategies) | Built a PPO-LSTM agent for **high-frequency trading** with custom reward shaping and a **real-time backtesting framework**. | Achieved a Sharpe ratio of 2.69 on selected market instruments · Live simulation return +3% |
 
 ---
 
