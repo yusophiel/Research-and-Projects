@@ -1,78 +1,166 @@
-# Research & Project Portfolio
-Research & engineering projects bridging AI, optimization, and data-driven decision making in complex systems.
+## Project Overview
+This project focuses on the design and implementation of a **Graph-Enhanced Reinforcement Learning Hyper-heuristic (Graph-RL-HH)** for solving **Vehicle Routing Problems (VRP)** and **VRP with Time Windows (VRPTW)**.
 
-🎓 **BSc (Hons) Computer Science with Artificial Intelligence**  
-University of Nottingham (UK & China Campuses)  
+This project implements a **full end-to-end learning-to-optimise framework for VRP/VRPTW**, combining **graph representation learning** with **reinforcement-driven operator control**. The system reproduces classical baselines while integrating novel **GNN-based state features** and **risk-sensitive PPO training**.
 
----
+The model integrates a **Graph Neural Network (GNN) encoder** with a **PPO-based hyper-heuristic**, enabling the agent to learn when and which destroy/repair or local-search operator to apply.
+The state representation leverages the inherent graph structure of VRP instances, addressing the limitations of traditional RL-HHs that rely on handcrafted scalar features only.
 
-## About Me
-
-I design intelligent computational systems that transform complexity into structure — systems that learn, adapt, and make hidden dynamics observable.
-My work bridges **algorithmic reasoning**, **data-driven modeling**, and **optimization** — with a focus on applications in **financial markets** and **decision systems**.
-Trained in **Computer Science and AI**, I apply **reinforcement learning**, **graph neural networks**, and **numerical optimization** to decision-making under uncertainty.
-At the intersection of **AI**, **Data Science**, and **Financial Engineering**, I aim to develop computational methods that combine **quantitative precision with interpretability**, enabling dynamic systems to evolve toward **transparency and intelligence**.
-
----
-
-## Research & Development
-
-| Project | Description | Highlights |
-|----------|--------------|-------------|
-| [**Graph-Enhanced Reinforcement Learning Hyper-heuristics for Vehicle Routing Problems**](./projects/Graph-Enhanced%20Reinforcement%20Learning%20Hyper-heuristics%20for%20Vehicle%20Routing%20Problems) | Designed a Graph-RL-HH framework integrating **GraphSAGE + PPO** for VRP/VRPTW. | Variance-penalized actor–critic reward · Cross-instance generalization |
-| [**Algorithm-Driven Quantitative Factor Mining**](./projects/Algorithm-Driven%20Quantitative%20Factor%20Mining) | Developed an RL-based **Alpha factor generation system** using RPN representation and Maskable PPO. | Multi-phase training · IC-based backtesting · LLM factor enhancement |
-| [**Real-Time Trading System for High-Frequency Crypto Strategies**](./projects/Real-Time%20Trading%20System%20for%20High-Frequency%20Crypto%20Strategies) | Built a PPO-LSTM agent for **crypto trading** with custom reward and real-time backtesting. | Sharpe 2.69 (DOGE) · Live trading +3% return |
-| [**Real-Time Robot System Powered by Speech Recognition and LLMs**](./projects/Real-Time%20Robot%20System%20Powered%20by%20Speech%20Recognition%20and%20Large%20Language%20Models) | Developed a **voice-based human–robot dialogue system** combining SenseVoice ASR, Qwen 2.5, and edge_tts. | Multi-threaded AV sync · Real-time ASR → LLM → TTS pipeline |
-| [**Zhejiang SUPCON Information Industry Co., Ltd. — Algorithm Intern**](./projects/Zhejiang%20SUPCON%20Information%20Industry-Algorithm-Intern) | Designed an initial algorithmic framework for **traffic signal control** using real-time flow data and Random Forest modeling. | F1 = 0.89 · Data preprocessing (Pandas, NumPy) · Visualization (Matplotlib, Seaborn) |
+This framework supports:
+- Graph-based state encoding
+- Masked-action PPO with feasibility checks
+- Classical VRP heuristic operators (destroy/repair + local search)
+- Evaluation across CVRP and VRPTW benchmarks
+- Ablation studies & generalisation testing
 
 ---
 
-## Quantitative & Financial Projects
+## Features
 
-| Project | Description | Highlights |
-|----------|--------------|-------------|
-| [**WorldQuant Alpha Strategies**](./projects/WorldQuant-Alpha-Strategies) | Gold Medal (Top 5%) — Global Alpha Competition 2025. Reinforcement-learning–driven alpha generation framework. | RPN factor representation · Maskable PPO · IC/ICIR/Decay evaluation |
-| [**Yingling Asset Management Internship (Quant Research)**](./projects/Yingling-QR-Intern) | Built multi-strategy FoF backtesting and risk-modeling framework. | Sharpe 1.25 · CNE5/Zarra factor integration · Automated visualization |
-| [**Ningbo Bank Internship (Architecture)**](./projects/Ningbo%20Bank-Architecture-Intern) | Built stock analysis pipeline with Qwen fine-tuning and RAG-based LLM Q&A system. | +7.6% QA accuracy improvement |
-| [**Distributed KV Store**](./projects/Distributed%20KV%20Store) | Implemented a **C++ distributed key–value store** under Raft protocol. | 9.6K QPS · P99 < 1ms · Async-Apply + ReadIndex concurrency |
-
----
-
-## Mathematical & Modeling Works
-
-| Project | Description | Highlights |
-|----------|--------------|-------------|
-| [**Mathematical Contest in Modeling (MCM) 2024**](./projects/Mathematical%20Contest%20in%20Modeling-2024) | Modeled ecosystem stability using **Michaelis–Menten & Lotka–Volterra** equations. | Meritorious Winner (Top 6%) · Sensitivity & stability analysis |
-
----
-
-## Technical Stack
-
-- **Programming:** Python (PyTorch, PyG, Pandas, NumPy), C++17 (distributed systems, lock-free)
-- **ML / DL:** PPO, DQN, Maskable PPO, LSTM, GraphSAGE, Random Forest, XGBoost
-- **Quantitative Research:** Factor construction, IC/ICIR analysis, risk attribution, backtesting
-- **Optimization:** LP-solve, Excel Solver (for LP/IP), and custom multi-objective / variance-penalized methods (for RL and combinatorial optimization)
-- **Systems:** Linux/Unix, CMake, GCC, NVMe IO, Raft consensus
-
----
-
-## Publications
-
-- *Enhancing Cryptocurrency Trading Strategies: A Deep Reinforcement Learning Approach Integrating Multi-Source LLM Sentiment Analysis*  
-  — **IEEE Symposium on Computational Intelligence for Financial Engineering and Economics (CIFEr) 2025**, shortlisted for **Best Paper Award**.  
-  [[PDF]](./publications/Enhancing_Cryptocurrency_Trading_Strategies_A_Deep_Reinforcement_Learning_Approach_Integrating_Multi-Source_LLM_Sentiment_Analysis.pdf)
+- **Graph Neural Network Encoder**
+    - Node features: coordinates, demand, route ID, position index, residual capacity
+    - Edge features: distance & solution-edge indicator
+- **PPO-based Reinforcement Learning Hyper-heuristic** 
+    - Supports 7+ operators (`Random Removal, Worst Removal, Regret Insertion, Swap, Relocate, 2-op`)
+    - Action masking to avoid infeasible choices
+- **Risk-Sensitive Reward Function**
+    - IQR-normalised improvement
+    - Rolling variance penalty for training stability
+- **Heuristic-Hint Mechanism** 
+    - KL-based soft imitation of operator improvements
+- **Baseline Framework** 
+    - `Nearest Neighbor` – simple constructive heuristic that always visits the closest unserved customer
+    - `Cheapest Insertion` – inserts nodes greedily based on minimal increased cost
+    - `Clarke–Wright Savings` – classical heuristic merging routes based on savings values
+    - `OR-Tools VRP Solver` – Google's high-performance solver with guided local search
+    - `Classical PPO-RL-HH` – RL hyper-heuristic using handcrafted state features (no graph encoder)
+    - `ALNS baseline` – adaptive large neighbourhood search, a strong metaheuristic reference
+- **Evaluation Tools** 
+    - Training curve visualisation
+    - Distance progression plots
+    - Operator-usage heatmaps
+    - Instance-level benchmarking
 
 ---
 
-## About This Repository
+## Core Workflow (Pseudo code)
 
-This repository collects my **academic, research, and engineering projects** across AI, FinTech, and Optimization.  
-Each project directory includes:
-- `README.md` summarizing objectives, methods, and results  
-- Visuals (architecture diagrams, result plots)  
-- (Optional) code snippets or algorithmic pseudocode  
+```python
+for each training episode:
+    
+    # Step 1. Construct graph state
+    build node features (x, y, demand, route_id, pos, residual_cap)
+    build edge features (distance, solution_edge_flag)
+    encode gnn_state = GNN(graph)
+
+    # Step 2. Augment with search dynamics
+    state = concat(gnn_state, iteration_index, acceptance_rate)
+
+    # Step 3. PPO policy selects operator
+    mask infeasible operators
+    action = πθ(state)
+
+    # Step 4. Apply destroy/repair or local search
+    new_solution = operator(action, current_solution)
+    compute Δcost
+
+    # Step 5. Compute risk-sensitive reward
+    reward = Δcost/IQR - λ * rolling_variance(Δcost)
+
+    # Step 6. PPO update with heuristic hints
+    compute q(o | s) from operator improvements
+    L_total = L_PPO + λhint * KL(q || π)
+    
+    update policy parameters
+```
 
 ---
 
-⭐ *If you’re reviewing my graduate application — thank you for taking the time to explore my work!*  
+## Module Justification
 
+### `data_processing.py`
+- Loads Solomon (1987) VRPTW benchmark data
+- Converts raw TXT format into unified `.npz` graph format
+- Computes distance matrices and kNN neighbourhoods
+- Validates CVRP/VRPTW feasibility components
+
+### `vrp_environment.py`
+- Maintains routing state: routes, loads, feasibility
+- Implements cost evaluation & temporal constraints
+- Provides step-wise interface for RL training
+
+### `encoder.py`
+- Implements 2–3 layer GNN with mean pooling
+- Encodes structural route relationships (following Johnn et al., 2024)
+- Supports both CVRP and VRPTW features
+
+### `operators/`
+- Destroy operators:
+Remove customers from the current solution to create diversification.
+    - **Random Removal** – removes customers uniformly at random
+    - **Worst Removal** – removes customers contributing highest marginal cost
+- Repair operators:
+Reinsert removed customers using greedy heuristics.
+    - **Regret Insertion** – chooses insertion with maximum regret difference
+- Local search operators:
+Perform neighbourhood improvements to refine existing routes.
+    - `Swap` – exchanges two customers
+    - `Relocate` – moves a customer to a different position
+    - `2-opt` – reverses a segment of a route to reduce distance
+
+### `ppo_agent.py`
+- Clipped PPO objective
+- Generalized Advantage Estimation (GAE)
+- KL-based heuristic hint loss
+- Action masking for infeasible operators
+- Stable reward & policy update mechanisms
+
+### `experiments/`
+- Includes baseline comparisons against:
+    - NN / Insertion / CW / OR-Tools
+    - Classical PPO-based RL-HH
+    - ALNS
+- Contains scripts for ablations and parameter sweeps
+
+---
+
+## Example Output
+
+- Training curves (Distance vs. Episode)
+- Cumulative reward curves
+- Ablation study:
+    - Remove edge features
+    - Remove route-position features
+    - Disable heuristic hints
+- Comparison:
+    - Graph-RL-HH vs RL-HH vs ALNS vs OR-Tools
+
+Preliminary experiments on Solomon C1 and R1 instances show that Graph-RL-HH achieves lower final tour cost and more stable convergence compared to classical RL-HH baselines.
+---
+
+## Future Work
+
+1. **Full VRPTW Integration** 
+    - Add time window feasibility masks
+    - Extend node features with `[ready_time, due_time, service_time]`
+2. **Parallel Rollout Engine** 
+    - Speed up training via multi-instance parallel collection
+3. **Improved GNN Architectures** 
+    - Explore GINEConv / attention-based variants for deeper relational encoding
+4. **Generalisation Benchmarks** 
+    - Test transfer between `(C, R, RC)` distributions
+    - Training on small instances → inference on large instances
+4. **Deployment & Packaging** 
+    - Convert into pip-installable library
+    - Add detailed documentation & plotting dashboards
+
+---
+
+## Requirements
+
+- Python >= 3.9
+- PyTorch
+- PyTorch Geometric (PyG)
+- NumPy
+- OR-Tools
+- Matplotlib
