@@ -97,11 +97,11 @@ for each training episode:
 ### `operators/`
 - Destroy operators:
 Remove customers from the current solution to create diversification.
-    - **Random Removal** – removes customers uniformly at random
-    - **Worst Removal** – removes customers contributing highest marginal cost
+    - `Random Removal` – removes customers uniformly at random
+    - `Worst Removal` – removes customers contributing highest marginal cost
 - Repair operators:
 Reinsert removed customers using greedy heuristics.
-    - **Regret Insertion** – chooses insertion with maximum regret difference
+    - `Regret Insertion` – chooses insertion with maximum regret difference
 - Local search operators:
 Perform neighbourhood improvements to refine existing routes.
     - `Swap` – exchanges two customers
@@ -126,6 +126,8 @@ Perform neighbourhood improvements to refine existing routes.
 
 ## Example Output
 
+Preliminary experiments on Solomon C1 and R1 instances show that Graph-RL-HH achieves lower final tour cost and more stable convergence compared to classical RL-HH baselines.
+
 - Training curves (Distance vs. Episode)
 - Cumulative reward curves
 - Ablation study:
@@ -135,7 +137,6 @@ Perform neighbourhood improvements to refine existing routes.
 - Comparison:
     - Graph-RL-HH vs RL-HH vs ALNS vs OR-Tools
 
-Preliminary experiments on Solomon C1 and R1 instances show that Graph-RL-HH achieves lower final tour cost and more stable convergence compared to classical RL-HH baselines.
 ---
 
 ## Future Work
