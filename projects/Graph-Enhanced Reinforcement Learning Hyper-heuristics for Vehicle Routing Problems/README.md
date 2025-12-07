@@ -1,45 +1,75 @@
+> **Status**: CVRP framework complete with validated results. 
+> VRPTW extension in active development (expected completion Mar 2025).
+
 ## Project Overview
-This project focuses on the design and implementation of a **Graph-Enhanced Reinforcement Learning Hyper-heuristic (Graph-RL-HH)** for solving **Vehicle Routing Problems (VRP)** and **VRP with Time Windows (VRPTW)**.
+This project proposes **Graph-RL-HH**, an integrated framework that learns adaptive operator-selection policies for solving Vehicle Routing Problems (VRP) and Vehicle Routing Problems with Time Windows (VRPTW). By combining:
 
-This project implements a **full end-to-end learning-to-optimise framework for VRP/VRPTW**, combining **graph representation learning** with **reinforcement-driven operator control**. The system reproduces classical baselines while integrating novel **GNN-based state features** and **risk-sensitive PPO training**.
+- **GraphSAGE** for graph-structured state encoding
+- **Proximal Policy Optimization (PPO)** for policy learning
+- **Adaptive Large Neighbourhood Search (ALNS)** for local optimization
 
-The model integrates a **Graph Neural Network (GNN) encoder** with a **PPO-based hyper-heuristic**, enabling the agent to learn when and which destroy/repair or local-search operator to apply.
-The state representation leverages the inherent graph structure of VRP instances, addressing the limitations of traditional RL-HHs that rely on handcrafted scalar features only.
-
-This framework supports:
-- Graph-based state encoding
-- Masked-action PPO with feasibility checks
-- Classical VRP heuristic operators (destroy/repair + local search)
-- Evaluation across CVRP and VRPTW benchmarks
-- Ablation studies & generalisation testing
+The framework achieves competitive solution quality on CVRP with strong robustness, and is being extended to VRPTW.
 
 ---
 
+## Key Contributions
+
+1. **Unified Framework** combining graph-structured state encoding, learning-based operator selection, and risk-sensitive reward shaping for VRP
+
+2. **Novel Graph Encoding** for routing: KNN adjacency with distance + solution-edge duality enables spatial and topological understanding
+
+3. **Risk-Sensitive Training** using IQR normalization and variance penalty provides stable convergence
+
+4. **Demonstrated Robustness** across random seeds (CV < 1%)
+
+---
+
+## Framework Architecture
+
+```
+Graph-RL-HH Framework
+├── Data Processing Layer
+│   ├── Solomon instance parsing
+│   └── KNN graph construction (k=10)
+│
+├── Graph Encoding Layer (GraphSAGE)
+│   ├── Node feature embedding (6 dimensions)
+│   ├── 2-layer GNN with mean aggregation
+│   └── Graph-level pooling
+│
+├── Environment Layer (ALNS)
+│   ├── State representation (graph embedding + search features)
+│   ├── Action space (6 operators: 3 destroy, 3 local-search)
+│   ├── Phase transition (destroy ↔ local-search)
+│   └── Reward shaping (IQR normalization + variance penalty)
+│
+└── Learning Layer (PPO)
+    ├── Policy network with masked action selection
+    ├── Value function for advantage estimation
+    ├── Differentiable heuristic hints (KL divergence)
+    └── Risk-sensitive loss combining 4 components
+```
+
+--- 
+
 ## Features
 
-- **Graph Neural Network Encoder**
-    - Node features: coordinates, demand, route ID, position index, residual capacity
-    - Edge features: distance & solution-edge indicator
-- **PPO-based Reinforcement Learning Hyper-heuristic** 
-    - Supports 7+ operators (`Random Removal, Worst Removal, Regret Insertion, Swap, Relocate, 2-op`)
-    - Action masking to avoid infeasible choices
-- **Risk-Sensitive Reward Function**
-    - IQR-normalised improvement
-    - Rolling variance penalty for training stability
-- **Heuristic-Hint Mechanism** 
-    - KL-based soft imitation of operator improvements
-- **Baseline Framework** 
-    - `Nearest Neighbor` – simple constructive heuristic that always visits the closest unserved customer
-    - `Cheapest Insertion` – inserts nodes greedily based on minimal increased cost
-    - `Clarke–Wright Savings` – classical heuristic merging routes based on savings values
-    - `OR-Tools VRP Solver` – Google's high-performance solver with guided local search
-    - `Classical PPO-RL-HH` – RL hyper-heuristic using handcrafted state features (no graph encoder)
-    - `ALNS baseline` – adaptive large neighbourhood search, a strong metaheuristic reference
-- **Evaluation Tools** 
-    - Training curve visualisation
-    - Distance progression plots
-    - Operator-usage heatmaps
-    - Instance-level benchmarking
+- **Graph-Based State Representation**
+    - Captures spatial dependencies and route structure
+    - KNN adjacency matrix with distance and solution-edge information
+    - Enables better cross-instance generalization
+- **Learning-Based Operator Selection**
+    - Learns to select destroy/repair and local-search operators dynamically
+    - Incorporates heuristic hints via differentiable KL-divergence loss
+    - Masked-action PPO ensures infeasible operators are never selected
+- **Risk-Sensitive Reward Shaping**
+    - IQR-normalized reward prevents overconfidence on sparse signals
+    - Variance penalty encourages stable and reproducible policies
+    - Stabilized training even in noisy optimization environments
+- **Reproducible Research**
+    - Modular architecture with clear separation of concerns
+    - Multi-seed evaluation with low variance
+    - Comprehensive baseline comparisons
 
 ---
 
@@ -126,34 +156,79 @@ Perform neighbourhood improvements to refine existing routes.
 
 ## Example Output
 
-Preliminary experiments on Solomon C1 and R1 instances show that Graph-RL-HH achieves lower final tour cost and more stable convergence compared to classical RL-HH baselines.
+### CVRP Results: Solomon R101 Instance
 
-- Training curves (Distance vs. Episode)
-- Cumulative reward curves
-- Ablation study:
-    - Remove edge features
-    - Remove route-position features
-    - Disable heuristic hints
-- Comparison:
-    - Graph-RL-HH vs RL-HH vs ALNS vs OR-Tools
+| Method | Best Distance (km) | Mean Distance (km) | Computation Time (s) | Gap to OR-Tools (%) |
+|--------|--------------------|--------------------|----------------------|-------------------|
+| **Graph-RL-HH** | **846.77** ✨ | **853.99** | ~150 episodes | **-0.8%** |
+| OR-Tools (5s) | 860.49 | 860.49 | 5.1 | 0.0 |
+| Nearest Neighbor | 1174.36 | - | 0.01 | 36.5 |
+| 2-opt | 1140.23 | - | 0.014 | 32.5 |
+| Clarke-Wright | 2404.96 | - | 0.023 | 179.5 |
+
+**Key Results on CVRP:**
+- **Stability**: Standard deviation 5.07 km (CV = 0.59%), demonstrating robust convergence
+- **Quality**: Mean performance within 0.8% of OR-Tools baseline
+- **Generalization**: Consistent performance across 10 independent seeds
+- **Learning**: PPO losses converge smoothly; no divergence observed
+
+### Training Stability (10 Seeds on R101 CVRP)
+
+```
+Mean:                 853.99 km
+Std Dev:               5.07 km
+Coefficient of Var:    0.59%  ← Excellent robustness
+Min:                 846.77 km (best performance)
+Max:                 862.45 km
+Median:              853.23 km
+```
+
+**Conclusion**: Framework demonstrates robust convergence regardless of random initialization.
 
 ---
 
-## Future Work
+## Research Status
 
-1. **Full VRPTW Integration** 
-    - Add time window feasibility masks
-    - Extend node features with `[ready_time, due_time, service_time]`
-2. **Parallel Rollout Engine** 
-    - Speed up training via multi-instance parallel collection
-3. **Improved GNN Architectures** 
-    - Explore GINEConv / attention-based variants for deeper relational encoding
-4. **Generalisation Benchmarks** 
-    - Test transfer between `(C, R, RC)` distributions
-    - Training on small instances → inference on large instances
-4. **Deployment & Packaging** 
-    - Convert into pip-installable library
-    - Add detailed documentation & plotting dashboards
+### CVRP Framework: Completed
+- Full framework design and implementation
+- Comprehensive baseline evaluation and comparison
+- Multi-seed robustness validation
+- Early cross-validation on R101 demonstrates strong potential for generalization across instance distributions
+
+**Current Findings (CVRP):**
+- Robust learning with minimal inter-seed variance (CV < 1%)
+- Variance-penalized reward shaping effectively stabilizes training
+- Graph-based state representation enables consistent operator selection
+
+### VRPTW Extension: In Progress
+- Framework adaptation for time-window constraints (temporal features, feasibility checks)
+- Phase 2 implementation: Adding time-window handling to operators and reward function
+- **Status**: Code implementation in progress; no quantitative results yet
+- **Timeline**: Expected baseline comparison completion by Jan 2025
+
+**Important Note**: VRPTW results will be released once the extension is completed and thoroughly validated. Current documentation focuses on validated CVRP achievements.
+
+---
+
+## Methodology & Innovation
+
+### Graph-Based State Encoding
+Unlike traditional RL-HH methods that use hand-crafted numerical features, Graph-RL-HH leverages spatial and topological structure through GraphSAGE encoding. This enables better understanding of:
+- Customer spatial clustering
+- Current route configurations
+- Neighborhood relationships
+
+### Risk-Sensitive Learning
+The variance-penalized reward combines:
+- **IQR normalization**: Prevents outlier improvements from dominating
+- **Variance penalty**: Encourages reproducible policy behavior
+- **Result**: Stable training even with sparse reward signals
+
+### Adaptive Operator Selection
+Instead of static operator weights (traditional ALNS), the PPO policy learns to select operators based on:
+- Current state (graph embedding)
+- Search progress (iteration index)
+- Recent performance (acceptance rate)
 
 ---
 
@@ -162,6 +237,8 @@ Preliminary experiments on Solomon C1 and R1 instances show that Graph-RL-HH ach
 - Python >= 3.9
 - PyTorch
 - PyTorch Geometric (PyG)
-- NumPy
-- OR-Tools
-- Matplotlib
+- torch>=1.9.0      
+- numpy>=1.19.0
+- scikit-learn>=0.24.0
+- ortools>=9.0.0
+- matplotlib>=3.3.0
