@@ -61,7 +61,7 @@ IEEE Symposium on Computational Intelligence for Financial Engineering and Econo
 
 ## Resume
 
-📄 [Quantitative Research Resume (PDF)](./SiyuXie-Quantitative%20Research.pdf)
+📄 [Resume](./SiyuXie-Quantitative%20Research.pdf)
 
 ---
 
