@@ -26,19 +26,19 @@ My research and industry experience includes:
 
 ## Featured Projects
 
-### [Budgeted Adaptive Falsification for Equity Alpha Discovery](https://github.com/yusophiel/Algorithm-Driven-Factor-Mining)
+### [Budgeted Adaptive Falsification for Equity Alpha Discovery](https://github.com/yusophiel/Budgeted-Alpha-Discovery)
 
 Developed a walk-forward research framework for large-scale symbolic alpha discovery, with adaptive testing-budget allocation designed to identify robust signals while controlling false eliminations.
 
 `Alpha Research` · `Walk-Forward Validation` · `Statistical Testing`
 
-### [Reinforcement Learning Order Book Trading Agent](https://github.com/yusophiel/RL-Trading-Agents-in-a-BSE-Limit-Order-Book-Environment)
+### [Reinforcement Learning Order Book Trading Agent](https://github.com/yusophiel/RL-Order-Book-Trading-Agent)
 
 Developed a PPO-based trading agent in a simulated limit order book and systematically compared five market-state representations under inventory risk and transaction costs.
 
 `Market Microstructure` · `PPO` · `Representation Learning`
 
-### [Multi-Strategy Portfolio Allocation & Backtesting](https://github.com/yusophiel/FoF-Risk-Model-and-Allocation)
+### [Multi-Strategy Portfolio Allocation & Backtesting](https://github.com/yusophiel/Multi-Strategy-Portfolio-Allocation)
 
 Built a rolling backtesting framework for multi-strategy portfolio allocation, incorporating point-in-time data handling, transaction costs, allocation rules, and risk overlays.
 
